@@ -1,20 +1,170 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<h1>Registration</h1>
+<p *ngIf="added">
+  Thank you for registering with us {{user.first_name}}.  We just sent you to confirmation email at <a href="mailto:{{user.email}}">{{user.email}}</a>, and we will send all mail to {{user.address}} <span *ngIf="hasApt">{{user.apt}}</span>, {{user.city}}, {{user.state}}
+  <br>
+  Have a wonderful day!
+</p>
+<form (submit)="onSubmit()" #myform='ngForm'>
+<fieldset >
+  <legend>Account Information</legend>
+    <table>
+      <!-- First Name -->
+      <tr>
+        <td>*First Name:</td>
+        <td><input 
+          type="text" 
+          name="first_name" 
+          required
+          [(ngModel)]="user.first_name"
+          #first_name='ngModel'
+          placeholder="First Name"
+        />
+        </td>
+        <td>{{ first_name.errors | json }}</td>
 
+      </tr>
+      <!-- Last Name -->
+      <tr>
+        <td>*Last Name:</td>
+        <td><input 
+          type="text" 
+          name="last_name" 
+          required
+          [(ngModel)]="user.last_name"
+          #last_name='ngModel'
+          placeholder="Last Name"
+        />
+        </td>
+        <td>{{ last_name.errors | json }}</td>
+      </tr>
+      <!-- Email -->
+      <tr>
+        <td>*Email:</td>
+        <td><input 
+          type="email" 
+          name="email" 
+          [(ngModel)]="user.email"
+          required
+          minlength="7"
+          maxlength="32"
+          #email="ngModel"
+          placeholder="Enter your email"
+        >
+        </td>
+        <td>{{ email.errors | json }}</td>
+      </tr>
+      <!-- Password -->
+      <tr>
+        <td>*Password:</td>
+        <td><input 
+          type="password" 
+          name="password" 
+          required 
+          minlength="8" 
+          maxlength="15"
+          pattern="^([a-zA-Z0-9@*#]{8,15})$"
+          [(ngModel)]="user.password"
+          #password='ngModel'
+        /></td>
+        <td>{{ password.errors | json }}</td>
+      </tr>
+      <!-- pw_confirm -->
+      <tr>
+        <td>*Password Confirmation:</td>
+        <td><input 
+          type="password" 
+          name="pw_confirm" 
+          required 
+          minlength="8" 
+          maxlength="15"
+          pattern="^([a-zA-Z0-9@*#]{8,15})$"
+          [(ngModel)]="user.pw_confirm"
+          #pw_confirm='ngModel'
+        /></td>
+        <td>{{ pw_confirm.errors | json }}</td>
+      </tr>
+      <!-- Address -->
+      <tr>
+        <td>*Street Address:</td>
+        <td><input 
+          type="text" 
+          name="address" 
+          required 
+          [(ngModel)]="user.address" 
+          #address='ngModel'
+          placeholder="Street"
+          />
+        </td>
+        <td>{{ address.errors | json }}</td>
+      </tr>
+      <!-- Apt -->
+      <tr>
+        <td>Unit/Apt#:</td>
+        <td><input 
+          type="text" 
+          name="apt"
+          [(ngModel)]="user.apt" 
+          #apt='ngModel' 
+          placeholder="Unit/Apt#"
+          />
+        </td>
+        <td></td>
+      </tr>
+      <!-- City -->
+      <tr>
+        <td>*City:</td>
+        <td><input 
+          type="text" 
+          name="city" 
+          required 
+          [(ngModel)]="user.city" 
+          #city='ngModel' 
+          placeholder="City"
+          />
+        </td>
+        <td>{{ city.errors | json }}</td>
+      </tr>
+      <!-- State -->
+      <tr>
+        <td>State:</td>
+        <td>
+          <select 
+          name="state" 
+          required
+          minlength="2"
+          [(ngModel)]="user.state" 
+          #state='ngModel'>
+            <option *ngFor="let state of states">{{state.name}}</option>
+          </select>
+        </td>
+        <td>{{ state.errors | json }}</td>
+      </tr>
+      <!-- Lucky -->
+      <tr>
+        <td>*I'm feeling lucky</td>
+        <td>
+          <!-- radios -->
+          <input 
+            type="radio" 
+            name="lucky" 
+            id="yes"
+            [(ngModel)]="user.lucky" 
+            #lucky='ngModel'
+            value="true">
+          <label for="yes">Yes</label>
+          <input 
+            type="radio" 
+            name="lucky" 
+            id="no" 
+            [(ngModel)]="user.lucky" 
+            #lucky='ngModel'
+            value="false">
+          <label for="no">No</label>
+        </td>
+        <td>{{ lucky.errors | json }}</td>
+      </tr>
+    </table>  
+</fieldset>
+<button class="bigButton" type="submit" [disabled]="myform.invalid">Submit</button>
+</form>
+<button (click)="clear()">Clear User</button>
